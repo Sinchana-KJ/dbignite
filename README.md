@@ -1,8 +1,7 @@
-# dbignite
+# dbignite 火 अग्नि
 __Health Data Interoperability__
 
-Utilities to minimize friction in the Databricks
-health data Lakehouse.
+Utilities to enable analytics on FHIR bundles in databricks lakehouse platform.
 
 # Usage Examples
 In this first phase of development, we drive
@@ -11,9 +10,9 @@ time we ensure the spec. is [extensible for the future
 use cases](#future-extensions).
 
 ## Core Use Case: Quick Exploratory Analysis of a FHIR Bundle
-The utilities in the _dbi_ package can be used
+The utilities in the _dbignite_ package can be used
 to minimize friction when dealing with a variety of
-health data models on the Databricks analytics platform.
+health data models on the Databricks lakehouse platform.
 In this example, the _dbignite_ package enables
 quick exploratory analysis of the people in a FHIR bundle.
 
@@ -49,25 +48,24 @@ person_dashboard.summary().display()
 # Design Principles
 - Data Model Agnostic ("Interoperable"): The goal of this project is to
   provide tools that minimize friction when dealing many health data
-  models (of the same data) on the Databricks analytics platform.
+  models (of the same data) on the Databricks lakehouse platform.
+  
 - Extensible data model mappings and "intermediate data models".
   See: [Design of the Interop Pipelines](#pipelines).
   There is a "many to many" problem when creating mappings between
   different data models. We solve this with the heirarchical combination
   of simple pipeline transforms.
+  
 - This package handles interoperability of different data models, but
   integration between upstream data sources and the data lake is out of
-  scope. Data is assumed to be landed in the data lake. Though, the
+  scope. _Data is assumed to be landed in the data lake_. Though, the
   pattern could in theory be extended to include integration -
   the _Transformer_ can take any arbitrary input to
   find the data.
+  
 - FHIR Bundles: dbignite has support for the convention of data for one patient per bundle
   in a directory. In general, we make no assumptions about what resources will be found in
   a FHIR bundle, or what the relationships between them will be.
-- These design principles will need to be elaborated
-  on when implementing use cases that require "unstructure" data mapping.
-  For example, OMOP source to concept mapping. For the "January project",
-  those use cases are out of scope.
 
 # Interop Pipeline Design
 
@@ -106,8 +104,9 @@ _DataModel_ can be introduced to simplify interoperability.
 
 ## Support for Dimensional (normalized) or Transactional Output Data Models
 For example:
-- Proper (dimensional) OMOP.
-- Transactional FHIR output.
+- Transactional FHIR output: To extract FHIR resources from tabular data (e.g. OMOP->FHIR)
+- Proper (dimensional) OMOP: Standard Clinical Data tables 
+
 
 ```
 omop_cdm = dbignite.transformers.fhir_bundles_to_omop_cdm(path_to_my_fhir_bundles)
